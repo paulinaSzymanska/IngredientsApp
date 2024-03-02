@@ -24,13 +24,13 @@ public class Supper extends AppCompatActivity {
         MainActivity.switchOfButtonWhenNoPdfElemInList(go_to_dessert);
 
         go_to_dessert.setOnClickListener(view -> {
-            Helper.saveContentOfPages(this, Helper.readValuesFromNumbersBoxes(textViewsList), R.raw.supper, "txtSupperCache");
+            Helper.saveContentOfPages(this, Helper.readValuesFromNumbersBoxes(textViewsList), "txtSupperCache");
             Intent intent = new Intent(this, Dessert.class);
             startActivity(intent);
         });
 
         generate_shop_list_button.setOnClickListener(view -> {
-            Helper.saveContentOfPages(this, Helper.readValuesFromNumbersBoxes(textViewsList), R.raw.supper, "txtSupperCache");
+            Helper.saveContentOfPages(this, Helper.readValuesFromNumbersBoxes(textViewsList), "txtSupperCache");
             Intent intent = new Intent(this, ShopList.class);
             startActivity(intent);
         });

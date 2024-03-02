@@ -20,7 +20,7 @@ public class Dessert extends AppCompatActivity {
                 findViewById(R.id.provide5SiteDessert));
 
         generate_shop_list_button.setOnClickListener(view -> {
-            Helper.saveContentOfPages(this, Helper.readValuesFromNumbersBoxes(textViewsList), R.raw.dessert, "txtDessertCache");
+            Helper.saveContentOfPages(this, Helper.readValuesFromNumbersBoxes(textViewsList), "txtDessertCache");
             Intent intent = new Intent(this, ShopList.class);
             startActivity(intent);
         });

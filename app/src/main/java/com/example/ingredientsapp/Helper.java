@@ -32,9 +32,9 @@ public class Helper {
         directory.delete();
     }
 
-    public static void saveContentOfPages(Context context, List<Integer> wantedPages, int number, String cacheFileName) {
+    public static void saveContentOfPages(Context context, List<Integer> wantedPages, String cacheFileName) {
         try {
-            PdfReader reader = getPdfReader(context, number);
+            PdfReader reader = getPdfReader();
             int pages = reader.getNumberOfPages();
             File cacheDir = context.getCacheDir();
             File txtBreakfastCacheDir = new File(cacheDir, cacheFileName);
@@ -81,7 +81,7 @@ public class Helper {
     }
 
     @NonNull
-    private static PdfReader getPdfReader(Context context, int number){
+    private static PdfReader getPdfReader(){
         return getPdf();
     }
 
