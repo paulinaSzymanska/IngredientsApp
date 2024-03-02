@@ -48,6 +48,8 @@ public class Helper {
                             || fileContent.contains("składniki")
                             || fileContent.contains("Składniki")) {
                         String fileName = generateFileName(wantedPage, txtBreakfastCacheDir);
+                        Log.e("MainActivity", "File names: : " + fileName);
+
                         File file = new File(txtBreakfastCacheDir, fileName);
                         FileWriter writer = new FileWriter(file);
                         String[] lines = fileContent.split("\\r?\\n");
@@ -85,11 +87,13 @@ public class Helper {
 
     private static String generateFileName(Integer wantedPage, File currentFiles) {
         String result = "page_" + wantedPage;
-        for (File file : currentFiles.listFiles()) {
+        File[] files = currentFiles.listFiles();
+        for (File file : files) {
+            int length = files.length;
             Integer pageNumber = getPageNumber(file.getName());
             if (pageNumber == wantedPage) {
-                int nextNumber = getNextNumber(file);
-                return result + "_" + (nextNumber + 1) + ".txt";
+                int nextNumber = getNextNumber(files[length - 1]);
+                return result + "_" + nextNumber + ".txt";
             } else {
                 return result + "_1.txt";
             }
@@ -104,9 +108,10 @@ public class Helper {
 
         if (matcher.find()) {
             String numberString = matcher.group(1);
-            return Integer.parseInt(numberString);
+            int result = Integer.parseInt(numberString) + 1;
+            return result;
         } else {
-            throw new IllegalArgumentException("Plik nie zawiera dwóch podkreśleń.");
+            throw new IllegalArgumentException("There are no underscores.");
         }
     }
 
