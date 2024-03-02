@@ -45,7 +45,9 @@ public class Helper {
             for (Integer wantedPage : wantedPages) {
                 if (wantedPage <= pages) {
                     String fileContent = PdfTextExtractor.getTextFromPage(reader, wantedPage);
-                    if (fileContent.contains("SKŁADNIKI")) {
+                    if (fileContent.contains("SKŁADNIKI")
+                            || fileContent.contains("składniki")
+                            || fileContent.contains("Składniki")) {
                         String fileName = generateFileName(wantedPage);
                         Log.d("Breakfast", fileName);
                         File file = new File(txtBreakfastCacheDir, fileName);
@@ -58,11 +60,13 @@ public class Helper {
                                 lineCount++;
                                 continue;
                             }
-                            if (line.contains("PRZYGOTOWANIE")) {
+                            if (line.contains("PRZYGOTOWANIE") ||
+                                    line.contains("przygotowanie") ||
+                                    line.contains("Przygotowanie")) {
                                 writer.close();
                                 break;
-                            } else if (line.contains("PRZYPRAWY")) {
-
+                            } else if (line.contains("PRZYPRAWY") || line.contains("przyprawy") ||
+                                    line.contains("Przyprawy")) {
                             } else {
                                 writer.write(line + "\n");
                             }
@@ -77,9 +81,7 @@ public class Helper {
     }
 
     @NonNull
-    private static PdfReader getPdfReader(Context context, int number) throws IOException {
-//        InputStream inputStream = context.getResources().openRawResource(number); //zmien miejsce z ktorego biore
-//        return new PdfReader(inputStream);
+    private static PdfReader getPdfReader(Context context, int number){
         return getPdf();
     }
 

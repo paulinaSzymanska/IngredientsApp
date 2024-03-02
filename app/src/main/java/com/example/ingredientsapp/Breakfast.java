@@ -23,6 +23,8 @@ public class Breakfast extends AppCompatActivity {
                 findViewById(R.id.provide3SiteBreakfast), findViewById(R.id.provide4SiteBreakfast),
                 findViewById(R.id.provide5SiteBreakfast));
 
+        MainActivity.switchOfButtonWhenNoPdfElemInList(go_to_dinner_button);
+
         go_to_dinner_button.setOnClickListener(view -> {
             Helper.saveContentOfPages(this, Helper.readValuesFromNumbersBoxes(textViewsList), R.raw.breakfast, "txtBreakfastCache");
             Intent intent = new Intent(this, Dinner.class);

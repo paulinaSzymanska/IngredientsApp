@@ -21,6 +21,8 @@ public class Supper extends AppCompatActivity {
                 findViewById(R.id.provide3SiteSupper), findViewById(R.id.provide4SiteSupper),
                 findViewById(R.id.provide5SiteSupper));
 
+        MainActivity.switchOfButtonWhenNoPdfElemInList(go_to_dessert);
+
         go_to_dessert.setOnClickListener(view -> {
             Helper.saveContentOfPages(this, Helper.readValuesFromNumbersBoxes(textViewsList), R.raw.supper, "txtSupperCache");
             Intent intent = new Intent(this, Dessert.class);

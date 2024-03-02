@@ -9,5 +9,10 @@
 
 and the run app 
 
-## if you run app from phone
-just enjoy!
+## if you run app from phone there are few rules!
+
+1. When you run app you have to apply recipe as a pdf file from phone
+2. Recipe has to have "Składniki/SKŁADNIKI/składniki" and 
+   "PRZYGOTOWANIE/przygotowanie/Przygotowanie" part without it will not work
+3. There is a seperate site for every type of meal, so if u want to generate shop list for desserts
+   you should type number sites in site called "Dessert"

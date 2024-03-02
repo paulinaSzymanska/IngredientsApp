@@ -23,6 +23,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final int PICK_PDF_FILE = 1;
+
     static List<PdfReader> listOfPdfReaders = new ArrayList<>();
 
     @Override
@@ -90,5 +91,11 @@ public class MainActivity extends AppCompatActivity {
 
     private PdfReader getPdfReader(Uri uri) throws IOException {
         return new PdfReader(getContentResolver().openInputStream(uri));
+    }
+
+    public static void switchOfButtonWhenNoPdfElemInList(Button button) {
+        if (listOfPdfReaders.size() == 1) {
+            button.setEnabled(false);
+        }
     }
 }
