@@ -12,14 +12,13 @@ import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Helper {
-    private static int counterForFileName = 0;
-
     public static void deleteDirectory(File directory) {
         if (directory.isDirectory()) {
             File[] files = directory.listFiles();
@@ -48,8 +47,7 @@ public class Helper {
                     if (fileContent.contains("SKŁADNIKI")
                             || fileContent.contains("składniki")
                             || fileContent.contains("Składniki")) {
-                        String fileName = generateFileName(wantedPage);
-                        Log.d("Breakfast", fileName);
+                        String fileName = generateFileName(wantedPage, txtBreakfastCacheDir);
                         File file = new File(txtBreakfastCacheDir, fileName);
                         FileWriter writer = new FileWriter(file);
                         String[] lines = fileContent.split("\\r?\\n");
@@ -81,13 +79,47 @@ public class Helper {
     }
 
     @NonNull
-    private static PdfReader getPdfReader(){
+    private static PdfReader getPdfReader() {
         return getPdf();
     }
 
-    private static String generateFileName(Integer wantedPage) {
-        counterForFileName++;
-        return "page_" + wantedPage + "_" + counterForFileName + ".txt";
+    private static String generateFileName(Integer wantedPage, File currentFiles) {
+        String result = "page_" + wantedPage;
+        for (File file : currentFiles.listFiles()) {
+            Integer pageNumber = getPageNumber(file.getName());
+            if (pageNumber == wantedPage) {
+                int nextNumber = getNextNumber(file);
+                return result + "_" + (nextNumber + 1) + ".txt";
+            } else {
+                return result + "_1.txt";
+            }
+        }
+        return result + "_1.txt";
+    }
+
+    private static int getNextNumber(File file) {
+        String fileName = file.getName();
+        Pattern pattern = Pattern.compile("_[^_]*_(\\d+)\\.\\w+$");
+        Matcher matcher = pattern.matcher(fileName);
+
+        if (matcher.find()) {
+            String numberString = matcher.group(1);
+            return Integer.parseInt(numberString);
+        } else {
+            throw new IllegalArgumentException("Plik nie zawiera dwóch podkreśleń.");
+        }
+    }
+
+    private static Integer getPageNumber(String name) {
+        Pattern pattern = Pattern.compile("page_(\\d+)");
+        Matcher matcher = pattern.matcher(name);
+
+        if (matcher.find()) {
+            String number = matcher.group(1);
+            return Integer.parseInt(number);
+        } else {
+            return null;
+        }
     }
 
     public static List<Integer> readValuesFromNumbersBoxes(List<TextView> providedSites) {

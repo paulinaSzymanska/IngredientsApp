@@ -45,13 +45,6 @@ public class ShopList extends AppCompatActivity {
         if (files != null) {
             for (File file : files) {
                 if (file.isFile()) {
-//                    1. counter niech będzie 1 nanową i niech się zwiększa tylko wtedy gdy jest ta sama strona
-//
-//                    2.ShopList linijka 48 zrob jakis matcher i if jesli sie cos zgadza to wtedy te ingredientsy razy *2 a jak nei to dodawaj do buildera nowe
-//
-//                    3.
-//                    When same sites, generate ingredients as multiplies example: apple x2
-//                   TODO  String name = file.getName();
                     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                         String line;
                         while ((line = br.readLine()) != null) {
