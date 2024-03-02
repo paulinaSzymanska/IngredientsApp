@@ -5,16 +5,21 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Helper {
+    private static int counterForFileName = 0;
+
     public static void deleteDirectory(File directory) {
         if (directory.isDirectory()) {
             File[] files = directory.listFiles();
@@ -29,12 +34,8 @@ public class Helper {
 
     public static void saveContentOfPages(Context context, List<Integer> wantedPages, int number, String cacheFileName) {
         try {
-            InputStream inputStream = context.getResources().openRawResource(number);
-            String fileContent;
-            PdfReader reader;
-            reader = new PdfReader(inputStream);
+            PdfReader reader = getPdfReader(context, number);
             int pages = reader.getNumberOfPages();
-
             File cacheDir = context.getCacheDir();
             File txtBreakfastCacheDir = new File(cacheDir, cacheFileName);
             deleteDirectory(txtBreakfastCacheDir);
@@ -43,9 +44,10 @@ public class Helper {
 
             for (Integer wantedPage : wantedPages) {
                 if (wantedPage <= pages) {
-                    fileContent = PdfTextExtractor.getTextFromPage(reader, wantedPage);
+                    String fileContent = PdfTextExtractor.getTextFromPage(reader, wantedPage);
                     if (fileContent.contains("SKŁADNIKI")) {
-                        String fileName = "page_" + wantedPage + ".txt";
+                        String fileName = generateFileName(wantedPage);
+                        Log.d("Breakfast", fileName);
                         File file = new File(txtBreakfastCacheDir, fileName);
                         FileWriter writer = new FileWriter(file);
                         String[] lines = fileContent.split("\\r?\\n");
@@ -74,6 +76,18 @@ public class Helper {
         }
     }
 
+    @NonNull
+    private static PdfReader getPdfReader(Context context, int number) throws IOException {
+//        InputStream inputStream = context.getResources().openRawResource(number); //zmien miejsce z ktorego biore
+//        return new PdfReader(inputStream);
+        return getPdf();
+    }
+
+    private static String generateFileName(Integer wantedPage) {
+        counterForFileName++;
+        return "page_" + wantedPage + "_" + counterForFileName + ".txt";
+    }
+
     public static List<Integer> readValuesFromNumbersBoxes(List<TextView> providedSites) {
         ArrayList<Integer> finalList = new ArrayList<>();
 
@@ -85,5 +99,17 @@ public class Helper {
             }
         }
         return finalList;
+    }
+
+    private static PdfReader getPdf() {
+        PdfReader finalPdfReader = null;
+        List<PdfReader> listOfPdfReaders = MainActivity.listOfPdfReaders;
+        if (!listOfPdfReaders.isEmpty()) {
+            PdfReader pdfReader = listOfPdfReaders.get(0);
+            finalPdfReader = pdfReader;
+            listOfPdfReaders.remove(pdfReader);
+
+        }
+        return finalPdfReader;
     }
 }

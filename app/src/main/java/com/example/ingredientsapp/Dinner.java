@@ -1,8 +1,5 @@
 package com.example.ingredientsapp;
 
-import static com.example.ingredientsapp.Helper.readValuesFromNumbersBoxes;
-import static com.example.ingredientsapp.Helper.saveContentOfPages;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -25,13 +22,13 @@ public class Dinner extends AppCompatActivity {
                 findViewById(R.id.provide5SiteDinner));
 
         go_to_supper.setOnClickListener(view -> {
-            saveContentOfPages(this, readValuesFromNumbersBoxes(textViewsList), R.raw.breakfast, "txtDinnerCache");
+            Helper.saveContentOfPages(this, Helper.readValuesFromNumbersBoxes(textViewsList), R.raw.breakfast, "txtDinnerCache");
             Intent intent = new Intent(this, Supper.class);
             startActivity(intent);
         });
 
         generate_shop_list_button.setOnClickListener(view -> {
-            saveContentOfPages(this, readValuesFromNumbersBoxes(textViewsList), R.raw.breakfast, "txtDinnerCache");
+            Helper.saveContentOfPages(this, Helper.readValuesFromNumbersBoxes(textViewsList), R.raw.breakfast, "txtDinnerCache");
             Intent intent = new Intent(this, ShopList.class);
             startActivity(intent);
         });

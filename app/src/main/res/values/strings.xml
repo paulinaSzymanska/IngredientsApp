@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">IngredientsApp</string>
+    <string name="load_pdf_file">Load pdf file</string>
 </resources>
