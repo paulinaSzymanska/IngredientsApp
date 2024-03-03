@@ -1,4 +1,5 @@
-6.Generuj pdfa z zakupami na koncu aplikacji lub w apce zapisz i wtedy polacz z wykreslaniem
+6.Generuj pdfa z zakupami na koncu aplikacji lub w apce zapisz i wtedy polacz
+z wykreslaniem
 
 7.wykreslaj produkty w aplikacji na koncu
 
