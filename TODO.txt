@@ -1,7 +1,3 @@
-4.Niektóre ignredientsy są w jednej linijce co jest błędem
-
-5. Zmniejsz wage apki
-
 6.Generuj pdfa z zakupami na koncu aplikacji lub w apce zapisz i wtedy polacz z wykreslaniem
 
 7.wykreslaj produkty w aplikacji na koncu
@@ -9,3 +5,12 @@
 8. a co jak zamiast jednego pdfa wybierze ktos pare?
 
 9. zamiast pisanie 3 + apple mnóż wartosc danego produktu
+dependsOn(4)
+
+high priority
+------------------------
+low priority
+
+4.Niektóre ignredientsy są w jednej linijce co jest błędem
+
+5. Zmniejsz wage apki

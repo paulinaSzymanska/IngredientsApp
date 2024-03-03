@@ -16,3 +16,4 @@ and the run app
    "PRZYGOTOWANIE/przygotowanie/Przygotowanie" part without it will not work
 3. There is a seperate site for every type of meal, so if u want to generate shop list for desserts
    you should type number sites in site called "Dessert"
+4. That's it enjoy!
