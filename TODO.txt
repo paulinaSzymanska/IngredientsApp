@@ -1,8 +1,3 @@
-2.ShopList linijka 48 zrob jakis matcher i if jesli sie cos zgadza to wtedy te ingredientsy razy *2 a jak nei to dodawaj do buildera nowe
-3.When same sites, generate ingredients as multiplies example: apple x2
-
------------------------------------------------------------
-
 4.Niektóre ignredientsy są w jednej linijce co jest błędem
 
 5. Zmniejsz wage apki
@@ -14,5 +9,3 @@
 8. a co jak zamiast jednego pdfa wybierze ktos pare?
 
 9. zamiast pisanie 3 + apple mnóż wartosc danego produktu
-
-10. Refaktoring tej metodyq  tej klasie: ShopList.areMoreThanOneSameFile
