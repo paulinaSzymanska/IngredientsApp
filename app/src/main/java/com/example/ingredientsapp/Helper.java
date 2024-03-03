@@ -47,11 +47,11 @@ public class Helper {
                             || fileContent.contains("składniki")
                             || fileContent.contains("Składniki")) {
                         String fileName = generateFileName(wantedPage, txtBreakfastCacheDir);
-                        Log.e("MainActivity", "File names: : " + fileName);
+                        Log.e("MainActivity", "File names: " + fileName);
 
                         File file = new File(txtBreakfastCacheDir, fileName);
                         FileWriter writer = new FileWriter(file);
-                        String[] lines = fileContent.split("\\r?\\n");
+                        String[] lines = fileContent.split("\n");
                         int lineCount = 0;
 
                         for (String line : lines) {
@@ -81,7 +81,15 @@ public class Helper {
 
     @NonNull
     private static PdfReader getPdfReader() {
-        return getPdf();
+        PdfReader finalPdfReader = null;
+        List<PdfReader> listOfPdfReaders = MainActivity.listOfPdfReaders;
+        if (!listOfPdfReaders.isEmpty()) {
+            PdfReader pdfReader = listOfPdfReaders.get(0);
+            finalPdfReader = pdfReader;
+            listOfPdfReaders.remove(pdfReader);
+
+        }
+        return finalPdfReader;
     }
 
     private static String generateFileName(Integer wantedPage, File currentFiles) {
@@ -126,17 +134,5 @@ public class Helper {
             }
         }
         return finalList;
-    }
-
-    private static PdfReader getPdf() {
-        PdfReader finalPdfReader = null;
-        List<PdfReader> listOfPdfReaders = MainActivity.listOfPdfReaders;
-        if (!listOfPdfReaders.isEmpty()) {
-            PdfReader pdfReader = listOfPdfReaders.get(0);
-            finalPdfReader = pdfReader;
-            listOfPdfReaders.remove(pdfReader);
-
-        }
-        return finalPdfReader;
     }
 }
