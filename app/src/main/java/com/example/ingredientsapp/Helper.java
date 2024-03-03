@@ -12,11 +12,10 @@ import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Helper {
     public static void deleteDirectory(File directory) {
@@ -88,43 +87,32 @@ public class Helper {
     private static String generateFileName(Integer wantedPage, File currentFiles) {
         String result = "page_" + wantedPage;
         File[] files = currentFiles.listFiles();
-        for (File file : files) {
-            int length = files.length;
-            Integer pageNumber = getPageNumber(file.getName());
-            if (pageNumber == wantedPage) {
-                int nextNumber = getNextNumber(files[length - 1]);
-                return result + "_" + nextNumber + ".txt";
-            } else {
-                return result + "_1.txt";
+        int length = files.length;
+        if (length == 0) {
+            return result + "_1.txt";
+        } else {
+            for (File file : files) {
+                String alreadyGotFileNumber = file.getName().split("_")[1];
+                if (Integer.parseInt(alreadyGotFileNumber) == wantedPage) {
+                    int highestNumber = findHighestNumberAfterUnderscore(wantedPage, files);
+                    return result + "_" + (highestNumber + 1) + ".txt";
+                }
+
             }
         }
         return result + "_1.txt";
     }
 
-    private static int getNextNumber(File file) {
-        String fileName = file.getName();
-        Pattern pattern = Pattern.compile("_[^_]*_(\\d+)\\.\\w+$");
-        Matcher matcher = pattern.matcher(fileName);
+    private static int findHighestNumberAfterUnderscore(Integer wantedPage, File[] files) {
+        File file = Arrays.stream(files)
+                .filter(el -> Integer.parseInt(el.getName().split("_")[1]) == wantedPage)
+                .max(Comparator.comparingInt(
+                        el -> Integer.parseInt((el.getName().split("_")[2]).replace(".txt", ""))))
+                .get();
 
-        if (matcher.find()) {
-            String numberString = matcher.group(1);
-            int result = Integer.parseInt(numberString) + 1;
-            return result;
-        } else {
-            throw new IllegalArgumentException("There are no underscores.");
-        }
-    }
-
-    private static Integer getPageNumber(String name) {
-        Pattern pattern = Pattern.compile("page_(\\d+)");
-        Matcher matcher = pattern.matcher(name);
-
-        if (matcher.find()) {
-            String number = matcher.group(1);
-            return Integer.parseInt(number);
-        } else {
-            return null;
-        }
+        String splitted = file.getName().split("_")[2];
+        String fileNum = splitted.replace(".txt", "");
+        return Integer.parseInt(fileNum);
     }
 
     public static List<Integer> readValuesFromNumbersBoxes(List<TextView> providedSites) {
