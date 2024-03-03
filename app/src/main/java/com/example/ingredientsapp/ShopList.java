@@ -17,14 +17,14 @@ import com.itextpdf.layout.element.Paragraph;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.Arrays;
 
 
 public class ShopList extends AppCompatActivity {
     private StringBuilder sb = new StringBuilder();
+    File[] files;
+    int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +37,29 @@ public class ShopList extends AppCompatActivity {
         File[] txtDirectories = mainDirectory.listFiles((dir, name) -> name.startsWith("txt") && new File(dir, name).isDirectory());
 
         saveShopListButton.setOnClickListener(view -> generatePdf(this, sb));
-
-        readSavedTxtFiles(txtDirectories, shopList);
+        files = txtDirectories;
+        readSavedTxtFiles(shopList, files);
     }
 
-    private void readSavedTxtFiles(File[] files, TextView shopList) {
+    private void readSavedTxtFiles(TextView shopList, File[] files) {
         if (files != null) {
             for (File file : files) {
                 if (file.isFile()) {
+                    Boolean moreThanOneSameFile = areMoreThanOneSameFile(file, files);
+                    String s = "";
+                    if (moreThanOneSameFile) {
+                        s = counter + " x ";
+                    }
+
+                    if (skipThisFile(file)) {
+                        break;
+                    }
+
                     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                         String line;
+                        counter = 0;
                         while ((line = br.readLine()) != null) {
+                            sb.append(s);
                             sb.append(line);
                             sb.append("\n");
                         }
@@ -55,13 +67,39 @@ public class ShopList extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 } else if (file.isDirectory()) {
-                    readSavedTxtFiles(file.listFiles(), shopList);
+                    readSavedTxtFiles(shopList, file.listFiles());
                 }
             }
         }
         String sortedAlphabeticallyIngredients = sortIngredients(sb.toString());
         shopList.setText(sortedAlphabeticallyIngredients);
     }
+
+    private boolean skipThisFile(File file) {
+        String fileNumber = file.getName().split("_")[2];
+        String fileNum = fileNumber.replace(".txt", "");
+
+        return Integer.parseInt(fileNum) != 1;
+    }
+
+    private Boolean areMoreThanOneSameFile(File file, File[] files) {
+        String secondNumber = file.getName().split("_")[2];
+        String numbers = secondNumber.replace(".txt", "");
+        if (Integer.parseInt(numbers) != 1) return false;
+
+        for (File myFile : files) {
+            String numberOfPage = file.getName().split("_")[1];
+            String myFileNumberOfPage = myFile.getName().split("_")[1];
+
+            if (numberOfPage.equals(myFileNumberOfPage)) {
+                counter++;
+            }
+        }
+        if (counter > 1) {
+            return true;
+        } else return false;
+    }
+
 
     private String sortIngredients(String string) {
         if (!string.isEmpty()) {
