@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         Button pdfDinnerButton = findViewById(R.id.pdfDinner);
         Button pdfSupperButton = findViewById(R.id.pdfSupper);
         Button pdfDessertButton = findViewById(R.id.pdfDessert);
+        load_recipes.setEnabled(false);
 
         load_recipes.setOnClickListener(view -> {
             Intent intent = new Intent(this, Breakfast.class);
@@ -44,21 +45,25 @@ public class MainActivity extends AppCompatActivity {
         pdfBreakfastButton.setOnClickListener(view -> {
             openFilePicker();
             pdfBreakfastButton.setEnabled(false);
+            load_recipes.setEnabled(true);
         });
 
         pdfDinnerButton.setOnClickListener(view -> {
             openFilePicker();
             pdfDinnerButton.setEnabled(false);
+            load_recipes.setEnabled(true);
         });
 
         pdfSupperButton.setOnClickListener(view -> {
             openFilePicker();
             pdfSupperButton.setEnabled(false);
+            load_recipes.setEnabled(true);
         });
 
         pdfDessertButton.setOnClickListener(view -> {
             openFilePicker();
             pdfDessertButton.setEnabled(false);
+            load_recipes.setEnabled(true);
         });
 
         Helper.deleteDirectory(getCacheDir());

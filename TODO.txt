@@ -8,6 +8,8 @@ z wykreslaniem
 9. zamiast pisanie 3 + apple mnóż wartosc danego produktu
 dependsOn(4)
 
+1.CO jak nie wgra ktos pdfa tylko plik txt?
+
 high priority
 ------------------------
 low priority
