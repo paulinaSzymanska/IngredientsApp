@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     PdfReader pdfReader = getPdfReader(uri);
                     listOfPdfReaders.add(pdfReader);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e.getCause());
                 }
             }
         }
