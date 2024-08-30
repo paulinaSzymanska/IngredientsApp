@@ -43,9 +43,7 @@ public class Helper {
             for (Integer wantedPage : wantedPages) {
                 if (wantedPage <= pages) {
                     String fileContent = PdfTextExtractor.getTextFromPage(reader, wantedPage);
-                    if (fileContent.contains("SKŁADNIKI")
-                            || fileContent.contains("składniki")
-                            || fileContent.contains("Składniki")) {
+                    if (fileContent.toLowerCase().contains("składniki")) {
                         String fileName = generateFileName(wantedPage, txtBreakfastCacheDir);
                         Log.e("MainActivity", "File names: " + fileName);
 
@@ -59,13 +57,10 @@ public class Helper {
                                 lineCount++;
                                 continue;
                             }
-                            if (line.contains("PRZYGOTOWANIE") ||
-                                    line.contains("przygotowanie") ||
-                                    line.contains("Przygotowanie")) {
+                            if (line.toLowerCase().contains("przygotowanie")) {
                                 writer.close();
                                 break;
-                            } else if (line.contains("PRZYPRAWY") || line.contains("przyprawy") ||
-                                    line.contains("Przyprawy")) {
+                            } else if (line.toLowerCase().contains("przyprawy")) {
                             } else {
                                 writer.write(line + "\n");
                             }
